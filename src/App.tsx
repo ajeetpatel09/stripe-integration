@@ -1,13 +1,23 @@
-
-import './App.css'
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./App.css";
+import SignUp from "./components/signup/SignUp";
 
 function App() {
+  const token = sessionStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (token != null) {
+      navigate("/products");
+    }
+  }, []);
 
   return (
     <>
-      <h1>Hello</h1>   
+      <SignUp />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

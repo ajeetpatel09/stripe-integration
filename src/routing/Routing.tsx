@@ -3,6 +3,7 @@ import App from "../App";
 import SignUp from "../components/signup/SignUp";
 import Login from "../components/login/Login";
 import Products from "../components/products/Products";
+import Transactions from "../components/transactions/Transactions";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
     {
         path: '/products',
         element: <Products/>
+    },
+    {
+        path: '/transactions',
+        element: <Transactions/>
     }
 ])
 

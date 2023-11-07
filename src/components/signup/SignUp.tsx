@@ -1,5 +1,5 @@
 import style from "./signup.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useSignUpMutation } from "../../redux/api/authSlice";
 
@@ -16,12 +16,20 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<inputType>();
 
-  const [signup, loading] = useSignUpMutation();
+  const navigate = useNavigate();
+  const [signup] = useSignUpMutation();
 
   const onSubmit = async(data: inputType) => {
       try{
-          const res = await signup(data);
+          const res:any = await signup(data);
           console.log(res);
+          if('data' in res){
+            alert(res.data.message);
+            navigate('/login');
+          }else if('error' in res){
+            alert(res.error.data.message)
+          }
+          
       }catch(err:any){
           console.log(err);
       }

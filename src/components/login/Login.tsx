@@ -1,5 +1,5 @@
 import style from "./login.module.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../../redux/api/authSlice";
 
@@ -15,15 +15,23 @@ const Login = () => {
     formState: { errors },
   } = useForm<inputType>();
 
-  const [login, loading] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const [login] = useLoginMutation();
   const onSubmit = async(data: inputType) => {
     try {
-        const res = await login(data);
+        const res: any = await login(data);
         console.log(res);
+        if('data' in res){
+          alert(res.data.message);
+          sessionStorage.setItem('token', res.data.token);
+          navigate('/products');
+        }else if('error' in res){
+          alert(res.error.data.message);
+        }
         
     } catch (error:any) {
         console.log(error);
-        
     }
   };
 
