@@ -21,10 +21,12 @@ const Login = () => {
   const onSubmit = async(data: inputType) => {
     try {
         const res: any = await login(data);
-        console.log(res);
+        console.log(res.data.token);
         if('data' in res){
           alert(res.data.message);
           sessionStorage.setItem('token', res.data.token);
+          console.log(sessionStorage.getItem('token'));
+        
           navigate('/products');
         }else if('error' in res){
           alert(res.error.data.message);

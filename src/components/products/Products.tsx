@@ -3,6 +3,7 @@ import style from "./products.module.css";
 import { useNavigate } from "react-router-dom";
 import { useGetProductsQuery } from "../../redux/api/productSlice";
 import { useCheckoutMutation } from "../../redux/api/stripeSlice";
+import { openNotification } from '../../utilities/utils';
 
 const Products = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const Products = () => {
       if('data' in res){
         // window.open(res.data.sessionUrl);
         window.location.href= res.data.sessionUrl;
+      }else if('error' in res){
+        alert(res.error.data.message);
       }
     } catch (error:any) {
       console.log(error);
@@ -30,10 +33,12 @@ const Products = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get('status');
     const message = urlParams.get('message');
-
     if (status === 'success') {
       // Payment was successful, handle success message and close Stripe Checkout
-      alert(message); // Show a success message or update your UI
+      if(message){
+        openNotification('success', message);
+      }
+       // Show a success message or update your UI
     } else if (status === 'cancel') {
       // Payment was canceled, handle cancellation message
       alert(message); // Show a cancellation message or update your UI
